@@ -1,0 +1,25 @@
+{
+    "manifest_version":3,
+    "name":"YTClipper",
+    "description": "YouTube動画のタイムスタンプを作成し、クリップ用のJSONファイルをエクスポートする",
+    "version":"1.0.1",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "action": {
+        "default_icon": "icon16.png",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+          "matches": ["https://www.youtube.com/watch?v=*"],
+          "css": ["style.css"],
+          "js": ["content-script.js"]
+        }
+    ],
+    "permissions": ["activeTab", "scripting", "storage", "activeTab"],
+    "host_permissions": ["http://*/*", "https://*/*"]
+  }
+  
