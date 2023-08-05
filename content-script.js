@@ -25,14 +25,15 @@ function initStartButton(){
   const controllAreaElement = document.getElementsByClassName('ytp-left-controls')[0];
   const playButton = document.getElementsByClassName('ytp-play-button ytp-button')[0];
   
-  
+  const buttonHeight = playButton.parentNode.offsetHeight;
+
   // スタートボタンとその親要素を作成
   let addElem = document.createElement('button');
   // addElem.id = 'ytc-area-wrapper';
   addElem.id = 'ytc-initButton';
   addElem.classList.add('ytp-button');
   addElem.innerHTML = `
-    <img src="https://cdn.discordapp.com/attachments/1137246828664987758/1137249342693064736/clapperboard-open-svgrepo-com.svg" id="ytc-initButton-icon">
+    <img src="https://cdn.discordapp.com/attachments/1137246828664987758/1137246877516042240/clapperboard.png" id="ytc-initButton-icon" width=` + buttonHeight + ` height=` + buttonHeight + `>
   `
   playButton.parentNode.insertBefore(addElem, playButton.nextElementSibling);
 }
