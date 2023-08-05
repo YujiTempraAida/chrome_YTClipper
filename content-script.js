@@ -14,23 +14,27 @@ function main() {
     initStartButton()
 
     // イベントリスナー
-    document.getElementById('YTC_initButton').addEventListener('click',initUI)
+    document.getElementById('ytc-initButton').addEventListener('click',initUI)
 
   }, 1000);
 }
 
 // スタートボタンを出す関数
 function initStartButton(){
-  // プレイヤー要素を取得
-  const player = document.getElementById('player');
+  // コントロール要素を取得
+  const controllAreaElement = document.getElementsByClassName('ytp-left-controls')[0];
+  const playButton = document.getElementsByClassName('ytp-play-button ytp-button')[0];
+  
   
   // スタートボタンとその親要素を作成
-  let addElem = document.createElement('div');
-  addElem.id = 'ytc-area-wrapper';
+  let addElem = document.createElement('button');
+  // addElem.id = 'ytc-area-wrapper';
+  addElem.id = 'ytc-initButton';
+  addElem.classList.add('ytp-button');
   addElem.innerHTML = `
-  <button id="YTC_initButton">郁代</button>
+    <img src="https://cdn.discordapp.com/attachments/1137246828664987758/1137249342693064736/clapperboard-open-svgrepo-com.svg" id="ytc-initButton-icon">
   `
-  player.parentNode.insertBefore(addElem, player.nextElementSibling);
+  playButton.parentNode.insertBefore(addElem, playButton.nextElementSibling);
 }
 
 // スタートボタンを押して、最初のUIを出す関数
@@ -38,31 +42,38 @@ function initUI(){
   console.log('郁代ボタンが押された');
   
   // 重複防止
-  if (document.getElementById("ytc-mainUI") != null) {
+  if (document.getElementById("ytc-area-wrapper") != null) {
     return
   }
 
   // YTCエリアを取得
-  const YTC_element = document.getElementById("ytc-area-wrapper");
+  const player = document.getElementById('player');
   
 
   
   // 追加するUI要素を作成
   let addElem = document.createElement('div');
-  addElem.id = "ytc-mainUI";
+  addElem.id = "ytc-area-wrapper";
   addElem.innerHTML = `
-  <div id="ytc-buttons">
-    <button id="ytc-exportButton">イクスポート</button>
-    <button id="ytc-inportButton">インポート</button>
-    <button id="ytc-closeButton">閉じる</button>
-  </div>
 
-  <div id="ytc-matchInfo">
-    <div id="ytc-matchInfo-01">
-    <label>喜多郁代<input id="ytc-matchInfo-01-ikuyo" type="text" size="4"></label>
+  <div id="ytc-match">
+    <ul id="ytc-match-list">
+      <li>
+        <span id="ytc-match-01-index">match-01</span>
+        <button id="ytc-match-01-inButton" >in</button>
+        <input id="ytc-match-01-in" type="text" size="4"></input>
+        <button id="ytc-match-01-outButton">out</button>
+        <input id="ytc-match-01-out" type="text" size="4"></input>
+        <label>p1Name<input id="ytc-match-01-p1Name" type="text" size="8"></input></label>
+        <label>p1Char<input id="ytc-match-01-p1Name" type="text" size="8"></input></label>
+        <label>p2Name<input id="ytc-match-01-p2Name" type="text" size="8"></input></label>
+        <label>p2Char<input id="ytc-match-01-p2Char" type="text" size="8"></input></label>
+        <button id="ytc-match-01-addButton">next</button>
+      </li>
+    </ul>
   </div>
   
-  <div id="ytc-tournamentInfo">
+  <div id="ytc-tournament">
     <details>
       <summary>トーナメント情報</summary>
       <li><label>トーナメント名: <input id="ytc-tournametName" type="text"></label></li>
@@ -101,10 +112,16 @@ function initUI(){
         <label>タグテンプレ: <textarea id="opt_template_tag" type="text"></textarea></label><br>
       </li>
     </details>
+
+    <div id="ytc-buttons">
+      <button id="ytc-exportButton">イクスポート</button>
+      <button id="ytc-inportButton">インポート</button>
+      <button id="ytc-closeButton">閉じる</button>
+    </div>
   `
 
   // YTCエリア
-  YTC_element.parentNode.insertBefore(addElem, YTC_element.nextElementSibling);
+  player.parentNode.insertBefore(addElem, player.nextElementSibling);
 
   // イベントリスナー
   document.getElementById('ytc-exportButton').addEventListener('click',exportData)
@@ -127,5 +144,5 @@ function importData(){
 function closeUI(){
   console.log("閉じるボタンが押されました");
   // メインUIを削除
-  document.getElementById("ytc-mainUI").remove()
+  document.getElementById("ytc-area-wrapper").remove()
 };
