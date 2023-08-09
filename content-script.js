@@ -509,7 +509,7 @@ function initUI(){
         <details>
           <summary>トーナメント情報</summary>
           <li><label>トーナメント名（日本語） <input type="text" name="tournament.nameJp"></input></label></li>
-          <li><label>トーナメント名（英語） <input type="text" name="tournament.nameJp"></input></label></li>
+          <li><label>トーナメント名（英語） <input type="text" name="tournament.nameEn"></input></label></li>
           <li><label>トーナメントURL <input type="text" name="tournament.Url"></input></label></li>
         </details>
       </div>
@@ -535,16 +535,21 @@ function initUI(){
               <input name="options.publicity" id="opt_publicity" type="radio" value="public">公開
             </label>
           </li>
-          <li><label>タイトルテンプレ <input type="text" id="options.template.title"></input></label></li>
-          <li><label>概要欄テンプレ <input type="text" id="options.template.about"></input></label></li>
-          <li><label>タグテンプレ <input type="text" id="options.template.tag"></input></label></li>
-          
+        </details>
+      </div>
+
+      <div id="ytc-templates">
+        <details>
+          <summary>テンプレート</summary>
+          <li><label>タイトルテンプレ <input name="template.title" type="text" id="options.template.title"></input></label></li>
+          <li><label>概要欄テンプレ <input name="template.about" type="text" id="options.template.about"></input></label></li>
+          <li><label>タグテンプレ <input name="template.tag" type="text" id="options.template.tag"></input></label></li>
         </details>
       </div>
     </from>
     <div id="ytc-buttons">
       <button id="ytc-exportButton" type="button">イクスポート</button>
-      <button id="ytc-inportButton" type="button">インポート</button>
+      <button id="ytc-inportButton" type="button">インポート(未実装)</button>
       <button id="ytc-closeButton" type="button">閉じる</button>  
     </div>
     
@@ -601,17 +606,17 @@ function exportData(){
   const fd = new FormData(document.getElementById("ytc-form-area"));
   const data = Object.fromEntries(fd.entries());
 
-  console.log(fd);
-  for (let item of fd){
-    console.log(item);
-  }
+  // JSONをネストさせる
+  const dataNested = nestJsonData(data);
 
-  // const data = {
-  //   name: 'kitaikuyo',
-  //   url: 'http://twitter.com'
-  // };
+  // マッチデータを配列化マッチデータを取得する
+  const matchDataArray = convertRawMatchObjToArray(dataNested.match);
+  dataNested.match = matchDataArray;
+
+  // 動画URLを追加
+  dataNested["videoUrl"] = location.href;
   
-  const blob = new Blob([JSON.stringify(data, null, '  ')], {type: 'application\/json'});
+  const blob = new Blob([JSON.stringify(dataNested, null, '  ')], {type: 'application\/json'});
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
 
@@ -629,8 +634,12 @@ function importData(){
 // 閉じるを押したときの関数
 function closeUI(){
   console.log("閉じるボタンが押されました");
-  // メインUIを削除
-  document.getElementById("ytc-area-wrapper").remove();
+
+  const result = confirm('本当に閉じますか？');
+  if (result) {
+    // メインUIを削除
+    document.getElementById("ytc-area-wrapper").remove();
+  }
 };
 
 // markInOutを押したときの関数
@@ -671,9 +680,6 @@ function addItemButton(elem){
     <button type="button" class="ytc-deleteItemButton">-</button>
   `
 
-
-  
-
   // キャラセレクト要素にoptionsを追加
   const charSelectElems = addElem.getElementsByClassName('ytc-char');
   const charSelectElemsArray = Array.from(charSelectElems);
@@ -711,24 +717,18 @@ function addItemButton(elem){
     // in
     innerItems[0].setAttribute("name","match." + index.toString() + ".in");
     // out
-    innerItems[0].setAttribute("name","match." + index.toString() + ".out");
+    innerItems[1].setAttribute("name","match." + index.toString() + ".out");
     // p1Name
-    innerItems[0].setAttribute("name","match." + index.toString() + ".p1Name");
+    innerItems[2].setAttribute("name","match." + index.toString() + ".p1Name");
     // p1Char
-    innerItems[0].setAttribute("name","match." + index.toString() + ".p1Char");
+    innerItems[3].setAttribute("name","match." + index.toString() + ".p1Char");
     // p2Name
-    innerItems[0].setAttribute("name","match." + index.toString() + ".p2Name");
+    innerItems[4].setAttribute("name","match." + index.toString() + ".p2Name");
     // p2Char
-    innerItems[0].setAttribute("name","match." + index.toString() + ".p2Char");
+    innerItems[5].setAttribute("name","match." + index.toString() + ".p2Char");
     // round
-    innerItems[0].setAttribute("name","match." + index.toString() + ".round");
-
-
+    innerItems[6].setAttribute("name","match." + index.toString() + ".round");
   })
-  
-
-
-
 }
 
 // deleteItemButtonを押したときの関数
@@ -744,4 +744,46 @@ function deleteItemButton(elem){
 // キャラセレクトのクラスを持った要素にoptionsを追加する関数
 function addFighterOptions(elem){
   // ごちゃってきたら作る
+}
+
+// データをネストさせる関数
+function nestJsonData(data){
+  dataNested = {};
+  console.log(data)
+  for (keySource in data) {
+    console.log(keySource);
+    // keyをsplitしてsplittedKeyArrayを作る
+    const splittedKeyArray = keySource.split(".");
+    console.log(splittedKeyArray);
+    const cunnerntKeyFormer = splittedKeyArray[0];
+    console.log(cunnerntKeyFormer);
+    // 先頭の要素を削除
+    splittedKeyArray.shift();
+    const cunnerntKeyLatter = splittedKeyArray.join(".")
+    console.log(cunnerntKeyLatter);
+    console.log(data[keySource]);
+    if (dataNested[cunnerntKeyFormer] == undefined) {
+      dataNested[cunnerntKeyFormer] = {};
+    }
+    dataNested[cunnerntKeyFormer][cunnerntKeyLatter] = data[keySource];
+  }
+  return dataNested;
+}
+
+// マッチデータを配列にする関数
+function convertRawMatchObjToArray(matchObj){
+  const matchArray = []
+  for (keySource in matchObj) {
+    const index = Number(keySource.split(".")[0]) - 1; // UIは1スタートで、Arrayは0スタートのため調整。
+    console.log(index);
+    const key = keySource.split(".")[1];
+    console.log(matchArray[index]);
+    
+    if (matchArray[index] == undefined) {
+      matchArray[index] = {}
+    }
+    console.log(matchArray[index]);
+    matchArray[index][key] = matchObj[keySource];
+  }
+  return matchArray;
 }
