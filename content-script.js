@@ -1,5 +1,6 @@
 console.log("コンテントスクリプトだよ");
 
+// fightersは長いので折り畳み推奨
 const fighters = [
   {
       "option":"01",
@@ -541,9 +542,42 @@ function initUI(){
       <div id="ytc-templates">
         <details>
           <summary>テンプレート</summary>
-          <li><label>タイトルテンプレ <input name="template.title" type="text" id="options.template.title"></input></label></li>
-          <li><label>概要欄テンプレ <input name="template.about" type="text" id="options.template.about"></input></label></li>
-          <li><label>タグテンプレ <input name="template.tag" type="text" id="options.template.tag"></input></label></li>
+          <li><label>タイトルテンプレ <input name="template.title" type="text" id="options.template.title"
+            value="{{nameJp}} - {{p1Name}} {{p1Char}} vs {{p2Name}} {{p2Char}} - スマブラ 大会 {{nameEn}}"
+          ></input></label></li>
+          <li><label>概要欄テンプレ <textarea name="template.about" id="options.template.about">{{nameJp}} - {{p1Name}} {{p1Char}} vs {{p2Name}} {{p2Char}} - スマブラ 大会 {{nameEn}} 
+
+east geek smash Youtube:
+https://www.youtube.com/channel/UCb5H3-n9s7mqsX0Fr7ADKLg/videos
+east geek smash Twitter:
+https://twitter.com/EastGeekSmash
+east geek smash Twitch (ライブ配信):
+https://www.twitch.tv/eastgeeksmash
+
+プレイリスト
+https://youtube.com/playlist?list=PLHO66moiuY1KELseAHj83Hqf0_dG8_SDU
+
+eaat geek smash 過去動画
+【スマブラSP】EGS Cup #3 決勝戦 - ザクレイ (マリオ) [W] vs あばだんご (パルテナ) [L]
+https://www.youtube.com/watch?v=SIoE1b08BSw&t=154s
+【スマブラSP】篝火＃3　feat...KEN,ザクレイ,あばだんご,かめめ,てぃ～,コメ,ライト,れあ,うめき,shky,あとりえ,kept,ぱせりまん,takera,Tsu…and more!
+https://www.youtube.com/watch?v=eIihWFXcFCE&t=26470s
+【スマブラSP大会】EGS Cup SNB|あばだんご(メタナイト)vs FOX|MKleo(ジョーカー)-
+https://www.youtube.com/watch?v=N-QMpEtIT94
+【スマブラSP大会】EGS Cup SNB|あばだんご(メタナイト)vs GW|ザクレイ(ロボット）‐ GW|Zackray(ROB)vs SNB|Abadango
+https://www.youtube.com/watch?v=6ShT9efCqM8
+────────────────────────────────────────
+プレイ中のゲーム: 「大乱闘スマッシュブラザーズ SPECIAL」
+『大乱闘スマッシュブラザーズ SPECIAL』（だいらんとうスマッシュブラザーズ スペシャル、欧米版タイトル：Super Smash Bros. Ultimate）は、任天堂より2018年12月7日に世界同時発売されたNintendo Switch用対戦アクションゲーム。
+
+────────────────────────────────────────
+east geek smashについて
+トッププレイヤーが集うスマブラの大会や競技シーンを発信する団体です。
+
+#スマブラ大会 #SSBU #eastgeeksmash #EGS</textarea></label></li>
+          <li><label>タグテンプレ <textarea name="template.tag" id="options.template.tag">
+east geek smash,スマブラsp,ssbu,スマブラ大会,ssbu montage,games,スマブラ最強キャラ,即死コンボ,super smash bros ultimate,video games,スマブラ コンボ,スマブラ,スマブラ 新キャラ,スマブラ オフ大会,スマブラ dlc,スマブラ 決勝,スマブラ プロ,プロゲーマー,スマブラ 撃墜集,大乱闘スマッシュブラザーズ,大会,スマブラ メテオ,スマブラ 名勝負,スマブラ 海外の反応,スマブラ 攻略,スマブラ コツ,スマブラ VIP,スマブラ 上達,スマブラ やり方,スマブラ 上手くなる方法,ウメブラ,篝火,決勝,スマブラ 名場面,スマブラ 撃墜,篝火 スマブラ,世界大会,EGS,ソラ,コンボ,{{nameJp}},{{p1Name}},{{p1Char}},{{p2Name}},{{p2Char}}
+          </textarea></label></li>
         </details>
       </div>
     </from>
